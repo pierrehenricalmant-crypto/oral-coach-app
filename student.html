@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Oral Coach — Élève</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <main class="card card--wide">
+    <div class="brand">
+      <div class="brand__badge" aria-hidden="true">🎓</div>
+      <div>
+        <h1 class="brand__title">Espace élève</h1>
+        <p class="brand__subtitle" id="context-line">…</p>
+      </div>
+      <button type="button" class="btn-link header-back" id="btn-back">← Connexion</button>
+    </div>
+
+    <!-- Step A: first-name identification (RGPD-minimal: first name + class only) -->
+    <section id="identify-section">
+      <form id="identify-form" novalidate>
+        <div class="field">
+          <label for="first-name">Ton prénom</label>
+          <input type="text" id="first-name" name="first-name" autocomplete="given-name" required />
+        </div>
+        <div class="field">
+          <label for="last-initial">Initiale de ton nom (optionnel, si un·e camarade a le même prénom)</label>
+          <input type="text" id="last-initial" name="last-initial" maxlength="1" />
+        </div>
+        <button type="submit" class="btn-primary">Commencer</button>
+        <p id="identify-error" class="error-message" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- Step B: unit picker -->
+    <section id="units-section" hidden>
+      <p class="hint">Choisis une unité, <span id="student-name-line"></span> :</p>
+      <div id="units-grid" class="units-grid" role="list"></div>
+    </section>
+
+    <!-- Step C: unit workspace (objectives + chat + recording) -->
+    <section id="workspace-section" hidden>
+      <button type="button" class="btn-link" id="btn-change-unit">← Changer d'unité</button>
+      <h2 id="unit-title"></h2>
+
+      <details class="unit-objectives">
+        <summary>Objectifs et grammaire de l'unité</summary>
+        <div id="unit-details"></div>
+      </details>
+
+      <div id="chat-panel" hidden>
+        <div id="chat-log" class="chat-log" lang="en" aria-live="polite"></div>
+
+        <div id="recording-controls" class="recording-controls">
+          <button type="button" id="btn-record" class="btn-record" aria-pressed="false">🎤 Parler</button>
+          <button type="button" id="btn-stop" class="btn-stop" hidden>⏹ Stop</button>
+          <span id="recording-indicator" class="recording-indicator" role="status" aria-live="polite" hidden>● Enregistrement…</span>
+        </div>
+
+        <form id="text-fallback-form" class="text-fallback">
+          <label for="text-fallback-input" class="hint">Ou écris ta réponse (si le micro ne fonctionne pas) :</label>
+          <div class="text-fallback__row">
+            <input type="text" id="text-fallback-input" name="text-fallback-input" />
+            <button type="submit" class="btn-primary">Envoyer</button>
+          </div>
+        </form>
+
+        <button type="button" id="btn-end-session" class="btn-teacher">Terminer et voir mon rapport</button>
+      </div>
+
+      <button type="button" id="btn-start-chat" class="btn-student">💬 Discuter avec le coach</button>
+    </section>
+
+    <!-- Step D: end-of-session report -->
+    <section id="report-section" hidden>
+      <h2>Ton rapport</h2>
+      <div id="report-content"></div>
+      <button type="button" id="btn-new-unit" class="btn-primary">Choisir une autre unité</button>
+    </section>
+  </main>
+
+  <script type="module" src="/src/student.js"></script>
+</body>
+</html>
