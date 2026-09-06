@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Oral Coach — Connexion</title>
+  <script type="module" crossorigin src="/oral-coach-app/assets/main-DZI4X7Hm.js"></script>
+  <link rel="modulepreload" crossorigin href="/oral-coach-app/assets/api-GJ1cdwsG.js">
+  <link rel="stylesheet" crossorigin href="/oral-coach-app/assets/api-BMYEr8cI.css">
+</head>
+<body>
+  <main class="card">
+    <div class="brand">
+      <div class="brand__badge" aria-hidden="true">🗣️</div>
+      <div>
+        <h1 class="brand__title">Oral Coach</h1>
+        <p class="brand__subtitle">Entraînement à l'oral en anglais</p>
+      </div>
+    </div>
+
+    <form id="login-form" novalidate>
+      <div class="field">
+        <label for="level">Niveau</label>
+        <select id="level" name="level" required>
+          <option value="" disabled selected>Choisis ta classe</option>
+          <option value="4A1">4A1</option>
+          <option value="5A1">5A1</option>
+          <option value="6A1">6A1</option>
+          <option value="6A2">6A2</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="teacher">Professeur</label>
+        <select id="teacher" name="teacher" required>
+          <option value="" disabled selected>Choisis ton professeur</option>
+          <option value="CAL">CAL</option>
+          <option value="DEY">DEY</option>
+          <option value="SIB">SIB</option>
+          <option value="BET">BET</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="btn-student" class="btn-student">Élève</button>
+        <button type="button" id="btn-teacher" class="btn-teacher">Prof</button>
+      </div>
+
+      <div id="teacher-panel" class="teacher-panel" aria-hidden="true">
+        <div class="field">
+          <label for="teacher-password">Mot de passe professeur</label>
+          <input type="password" id="teacher-password" name="teacher-password" autocomplete="current-password" />
+        </div>
+        <button type="submit" id="btn-teacher-submit" class="btn-primary">Se connecter</button>
+      </div>
+
+      <p id="error-message" class="error-message" role="alert"></p>
+    </form>
+  </main>
+
+</body>
+</html>

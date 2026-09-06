@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Oral Coach — Professeur</title>
+  <script type="module" crossorigin src="/oral-coach-app/assets/teacher-BfSaUISL.js"></script>
+  <link rel="modulepreload" crossorigin href="/oral-coach-app/assets/api-GJ1cdwsG.js">
+  <link rel="stylesheet" crossorigin href="/oral-coach-app/assets/api-BMYEr8cI.css">
+</head>
+<body>
+  <main class="card card--wide">
+    <div class="brand">
+      <div class="brand__badge" aria-hidden="true">📊</div>
+      <div>
+        <h1 class="brand__title">Tableau de bord</h1>
+        <p class="brand__subtitle" id="context-line">…</p>
+      </div>
+      <button type="button" class="btn-link header-back" id="btn-logout">← Déconnexion</button>
+    </div>
+
+    <div class="field field--inline">
+      <label for="level-filter">Niveau</label>
+      <select id="level-filter">
+        <option value="">Tous les niveaux</option>
+        <option value="4A1">4A1</option>
+        <option value="5A1">5A1</option>
+        <option value="6A1">6A1</option>
+        <option value="6A2">6A2</option>
+      </select>
+    </div>
+
+    <p id="empty-state" class="hint" hidden>Aucun élève n'a encore utilisé l'application dans ce niveau.</p>
+
+    <div class="dashboard-table-wrap">
+      <table class="dashboard-table" id="dashboard-table" hidden>
+        <thead>
+          <tr>
+            <th scope="col">Élève</th>
+            <th scope="col">Niveau</th>
+            <th scope="col">Progression</th>
+            <th scope="col">Unités testées</th>
+            <th scope="col">Fautes les plus fréquentes</th>
+          </tr>
+        </thead>
+        <tbody id="dashboard-body"></tbody>
+      </table>
+    </div>
+  </main>
+
+</body>
+</html>
