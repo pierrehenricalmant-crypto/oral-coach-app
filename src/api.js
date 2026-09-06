@@ -62,3 +62,7 @@ export function getDashboard(level) {
   const query = level ? `?level=${encodeURIComponent(level)}` : '';
   return request(`/api/teacher/dashboard${query}`);
 }
+
+export function resetStudents(level) {
+  return request(`/api/teacher/students?level=${encodeURIComponent(level)}`, { method: 'DELETE' });
+}

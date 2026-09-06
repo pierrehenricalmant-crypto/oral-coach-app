@@ -1,10 +1,11 @@
-import { getTeacherMe, teacherLogout, getDashboard, getUnits } from './api.js';
+import { getTeacherMe, teacherLogout, getDashboard, getUnits, resetStudents } from './api.js';
 
 const initialLevel = sessionStorage.getItem('oralCoach.level') || '';
 const levelFilter = document.getElementById('level-filter');
 const emptyState = document.getElementById('empty-state');
 const table = document.getElementById('dashboard-table');
 const tbody = document.getElementById('dashboard-body');
+let teacherCode = '';
 
 const CATEGORY_LABELS = {
   grammar: 'Grammaire',
@@ -81,6 +82,7 @@ levelFilter.addEventListener('change', renderDashboard);
 
 getTeacherMe()
   .then(({ code }) => {
+    teacherCode = code;
     document.getElementById('context-line').textContent = code;
     return renderDashboard();
   })
@@ -94,5 +96,45 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
   } finally {
     sessionStorage.removeItem('oralCoach.level');
     window.location.href = import.meta.env.BASE_URL;
+  }
+});
+
+// ---- End-of-year reset: wipe this teacher's students for one level ----
+const btnResetOpen = document.getElementById('btn-reset-open');
+const resetPanel = document.getElementById('reset-panel');
+const btnResetConfirm = document.getElementById('btn-reset-confirm');
+const btnResetCancel = document.getElementById('btn-reset-cancel');
+
+const resetPickLevelHint = document.getElementById('reset-pick-level-hint');
+const resetError = document.getElementById('reset-error');
+
+btnResetOpen.addEventListener('click', () => {
+  if (!levelFilter.value) {
+    resetPickLevelHint.textContent = 'Choisis d’abord un niveau précis (pas "Tous les niveaux") pour le réinitialiser.';
+    resetPickLevelHint.classList.add('visible');
+    return;
+  }
+  resetPickLevelHint.classList.remove('visible');
+  document.getElementById('reset-level-name').textContent = levelFilter.value;
+  document.getElementById('reset-teacher-name').textContent = teacherCode;
+  resetError.classList.remove('visible');
+  resetPanel.hidden = false;
+});
+
+btnResetCancel.addEventListener('click', () => {
+  resetPanel.hidden = true;
+});
+
+btnResetConfirm.addEventListener('click', async () => {
+  btnResetConfirm.disabled = true;
+  try {
+    await resetStudents(levelFilter.value);
+    resetPanel.hidden = true;
+    await renderDashboard();
+  } catch {
+    resetError.textContent = 'La réinitialisation a échoué, réessaie.';
+    resetError.classList.add('visible');
+  } finally {
+    btnResetConfirm.disabled = false;
   }
 });
