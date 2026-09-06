@@ -2,8 +2,11 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 // Multi-page app: login (index), student area, teacher area.
-// Student/teacher pages are stubs for now — built out in later steps.
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // GitHub Pages serves this as a project page (github.io/oral-coach-app/),
+  // a sub-path, not the domain root — asset/navigation URLs must account
+  // for that in production builds. Dev server stays at the root.
+  base: command === 'build' ? '/oral-coach-app/' : '/',
   server: { port: 5173 },
   build: {
     rollupOptions: {
@@ -14,4 +17,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

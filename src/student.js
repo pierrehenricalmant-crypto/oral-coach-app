@@ -4,14 +4,14 @@ const level = sessionStorage.getItem('oralCoach.level');
 const teacherCode = sessionStorage.getItem('oralCoach.teacherCode');
 
 if (!level || !teacherCode) {
-  window.location.href = '/index.html';
+  window.location.href = import.meta.env.BASE_URL;
 }
 
 document.getElementById('context-line').textContent = `${level} — ${teacherCode}`;
 document.getElementById('btn-back').addEventListener('click', () => {
   sessionStorage.removeItem('oralCoach.level');
   sessionStorage.removeItem('oralCoach.teacherCode');
-  window.location.href = '/index.html';
+  window.location.href = import.meta.env.BASE_URL;
 });
 
 // ---- Sections ----

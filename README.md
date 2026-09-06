@@ -8,15 +8,14 @@ backend in `../server`.
 1. `cd client`
 2. `npm install`
 3. Copy `.env.example` to `.env` if the backend doesn't run on `http://localhost:3001`.
-4. Add the OpenDyslexic font files — see `public/fonts/README.txt`.
-5. `npm run dev` — opens on `http://localhost:5173`. Make sure `server` is running too (`npm run dev` in `../server`).
+4. `npm run dev` — opens on `http://localhost:5173`. Make sure `server` is running too (`npm run dev` in `../server`).
 
 ## Pages
 
 - `index.html` / `src/login.js` — level + teacher dropdowns, "Élève" (direct access) and "Prof" (reveals a password field, verified by the backend) buttons.
-- `student.html` / `src/student.js` — first-name identification, unit picker (from `content/<level>/units.json`), chat with the Claude coach, voice recording via the browser's Web Speech API (text field fallback always available), end-of-session report.
-- `teacher.html` / `src/teacher.js` — dashboard: per-student progression, units tested, most frequent errors by category, filterable by level.
-- `src/style.css` — pastel theme, responsive layout, OpenDyslexic typography with a safe fallback, subtle animations (respects `prefers-reduced-motion`).
+- `student.html` / `src/student.js` — first-name identification, unit picker (from `content/<level>/units.json`), chat with the Claude coach, voice recording via the browser's Web Speech API (text field fallback always available), the coach's replies are also read aloud via speech synthesis (best available English voice, auto-selected), end-of-session report.
+- `teacher.html` / `src/teacher.js` — dashboard: per-student progression, units tested, most frequent errors (category + specific curriculum point, e.g. "Grammaire — Present Simple/Present Continuous"), filterable by level.
+- `src/style.css` — pastel theme, responsive layout, Calibri typography (with a system-font fallback stack; OpenDyslexic is still bundled in `src/assets/fonts/` and declared as a `@font-face` if you want to switch back), subtle animations (respects `prefers-reduced-motion`).
 - `src/api.js` — fetch wrapper; sends/receives the httpOnly session cookie (`credentials: 'include'`).
 
 ## Safari & accessibility (step 7 pass)
@@ -35,11 +34,18 @@ Safari and iOS Safari before relying on it in class:
 
 Color contrast was checked by hand against WCAG AA (≥4.5:1) for the main text/background pairs in `src/style.css` (dark text on every pastel button/card background, muted text on white, error text on its pink background) — all pass, the tightest being the error message at ~4.7:1. Still worth re-running through a browser contrast checker once the app is live. Not yet re-tested after this pass: actual VoiceOver/NVDA screen-reader runs.
 
-## Deploying to Netlify
+## Deploying to GitHub Pages
 
-Netlify auto-detects the Vite build (`npm run build` → `dist/`, already set in `netlify.toml`).
+Live at **https://pierrehenricalmant-crypto.github.io/oral-coach-app/**.
 
+GitHub Pages serves this as a project page — a sub-path of `github.io`, not the domain root — which two things depend on:
+- `vite.config.js` sets `base: '/oral-coach-app/'` for production builds only (dev server stays at `/`).
+- Every in-app navigation (`window.location.href = ...`) uses `import.meta.env.BASE_URL` instead of a hardcoded `/page.html`, and the OpenDyslexic font files were moved from `public/fonts/` into `src/assets/fonts/` with relative `url()` references in `style.css`, so Vite bundles and rewrites them with the correct base prefix — a root-absolute `/fonts/...` path (or a plain `/page.html` redirect) silently breaks once the site isn't at the domain root.
+
+Steps (no GitHub Actions needed — built and published straight from this machine via the `gh-pages` npm package):
 1. Deploy the **backend first** (see `server/README.md`) — you need its URL for the next step.
-2. Create a new Netlify site from this repo, **base directory: `client`**.
-3. Site settings → Environment variables: set `VITE_API_URL` to the backend's Netlify URL (e.g. `https://oral-coach-api.netlify.app`) — this must be set *before* the build runs, since Vite bakes `VITE_API_URL` into the built JS at build time, not at runtime.
-4. Deploy. Then go back to the backend's `CLIENT_ORIGIN` env var and set it to this site's real URL, and redeploy the backend once.
+2. Set `VITE_API_URL` in `.env.production` to the backend's real URL (baked into the build at build time, not read at runtime).
+3. `npm run build`, then `npx gh-pages -d dist` — pushes `dist/` to the repo's `gh-pages` branch, which GitHub Pages serves.
+4. Go back to the backend's `CLIENT_ORIGIN` env var, set it to this site's origin (`https://<user>.github.io`, scheme+host only, no path), and redeploy the backend once.
+
+**Why GitHub Pages and not Netlify**: see `server/README.md`'s "Why Vercel and not Netlify" note — the same account-wide Netlify deploy freeze affected this site too, so it moved here.

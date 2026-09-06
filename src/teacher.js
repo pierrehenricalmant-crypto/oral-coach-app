@@ -85,7 +85,7 @@ getTeacherMe()
     return renderDashboard();
   })
   .catch(() => {
-    window.location.href = '/index.html';
+    window.location.href = import.meta.env.BASE_URL;
   });
 
 document.getElementById('btn-logout').addEventListener('click', async () => {
@@ -93,6 +93,6 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
     await teacherLogout();
   } finally {
     sessionStorage.removeItem('oralCoach.level');
-    window.location.href = '/index.html';
+    window.location.href = import.meta.env.BASE_URL;
   }
 });

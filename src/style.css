@@ -1,16 +1,16 @@
-/* ---- OpenDyslexic (hosted locally) ---- */
-/* Drop the actual font files into client/public/fonts/ — see public/fonts/README.txt.
-   Until then, the browser silently falls back to the next font in the stack. */
+/* ---- OpenDyslexic (hosted locally, bundled from src/assets/fonts) ---- */
+/* Relative paths (not /fonts/...) so this keeps working when the site is
+   deployed under a sub-path (e.g. GitHub Pages' /repo-name/). */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('/fonts/OpenDyslexic-Regular.woff2') format('woff2');
+  src: url('./assets/fonts/OpenDyslexic-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('/fonts/OpenDyslexic-Bold.woff2') format('woff2');
+  src: url('./assets/fonts/OpenDyslexic-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;

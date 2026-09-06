@@ -36,7 +36,7 @@ btnStudent.addEventListener('click', () => {
   // page itself (kept minimal here, per the RGPD-conscious identifier).
   sessionStorage.setItem('oralCoach.level', levelSelect.value);
   sessionStorage.setItem('oralCoach.teacherCode', teacherSelect.value);
-  window.location.href = '/student.html';
+  window.location.href = `${import.meta.env.BASE_URL}student.html`;
 });
 
 btnTeacher.addEventListener('click', () => {
