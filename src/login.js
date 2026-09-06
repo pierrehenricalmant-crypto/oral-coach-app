@@ -63,7 +63,7 @@ form.addEventListener('submit', async (event) => {
   try {
     await teacherLogin(teacherSelect.value, password);
     sessionStorage.setItem('oralCoach.level', levelSelect.value);
-    window.location.href = '/teacher.html';
+    window.location.href = `${import.meta.env.BASE_URL}teacher.html`;
   } catch (err) {
     // Distinguish "wrong password" from "server/database unreachable" —
     // showing the wrong one of these to a teacher is actively misleading.
